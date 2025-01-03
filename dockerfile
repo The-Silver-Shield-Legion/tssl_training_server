@@ -1,14 +1,10 @@
 # Use Debian slim as the base image
 FROM debian:bullseye-slim
 
-# Arguments
-ARG BL_SRV_TOKEN
-
 # Set environment variables
 ENV STEAMCMDDIR=/steamcmd
 ENV BANNERLORDDIR=/tssl
 ENV PATH="$PATH:/usr/share/dotnet"
-ENV BL_SRV_TOKEN=${BL_SRV_TOKEN}}
 
 # Install Linux dependencies and add Microsoft repository
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -89,13 +85,13 @@ EXPOSE 7210/udp
 CMD [ \
     "dotnet", \
     "TaleWorlds.Starter.DotNetCore.Linux.dll", \
-    "_MODULES_*Native*Multiplayer*_MODULES_", \
+    "_MODULES_*Native*Multiplayer*_MODULES_*TEST_MODULE", \
     "/dedicatedcustomserverconfigfile", \
     "../../Modules/Native/ds_server_config.txt", \
     "/tickrate", \
     "240", \
     "/dedicatedcustomserverauthtoken", \
-    ${BL_SRV_TOKEN}, \
+    $BL_SRV_TOKEN, \
     "/dedicatedcustomserver", \
     "7210", \
     "USER", \
